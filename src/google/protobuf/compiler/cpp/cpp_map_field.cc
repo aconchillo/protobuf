@@ -244,7 +244,7 @@ GenerateMergeFromCodedStream(io::Printer* printer) const {
   // If entry is allocated by arena, its desctructor should be avoided.
   if (using_entry && SupportsArenas(descriptor_)) {
     printer->Print(variables_,
-        "if (entry->GetArena() != NULL) entry.release();\n");
+        "if (entry->GetArena() != nullptr) entry.release();\n");
   }
 }
 
@@ -268,7 +268,7 @@ static void GenerateSerializationLoop(io::Printer* printer,
   // If entry is allocated by arena, its desctructor should be avoided.
   if (supports_arenas) {
     printer->Print(
-        "if (entry->GetArena() != NULL) {\n"
+        "if (entry->GetArena() != nullptr) {\n"
         "  entry.release();\n"
         "}\n");
   }
@@ -408,7 +408,7 @@ GenerateByteSize(io::Printer* printer) const {
   // If entry is allocated by arena, its desctructor should be avoided.
   if (SupportsArenas(descriptor_)) {
     printer->Print(variables_,
-        "    if (entry.get() != NULL && entry->GetArena() != NULL) {\n"
+        "    if (entry.get() != nullptr && entry->GetArena() != nullptr) {\n"
         "      entry.release();\n"
         "    }\n");
   }
@@ -422,7 +422,7 @@ GenerateByteSize(io::Printer* printer) const {
   // If entry is allocated by arena, its desctructor should be avoided.
   if (SupportsArenas(descriptor_)) {
     printer->Print(variables_,
-        "  if (entry.get() != NULL && entry->GetArena() != NULL) {\n"
+        "  if (entry.get() != nullptr && entry->GetArena() != nullptr) {\n"
         "    entry.release();\n"
         "  }\n");
   }

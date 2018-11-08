@@ -62,7 +62,7 @@ void SetStringVariables(const FieldDescriptor* descriptor,
                 "::" + default_variable_string + ".get()";
   (*variables)["pointer_type"] =
       descriptor->type() == FieldDescriptor::TYPE_BYTES ? "void" : "char";
-  (*variables)["null_check"] = "GOOGLE_DCHECK(value != NULL);\n";
+  (*variables)["null_check"] = "GOOGLE_DCHECK(value != nullptr);\n";
   // NOTE: Escaped here to unblock proto1->proto2 migration.
   // TODO(liujisi): Extend this to apply for other conflicting methods.
   (*variables)["release_name"] =
@@ -276,7 +276,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer) const {
     if (HasFieldPresence(descriptor_->file())) {
       printer->Print(variables_,
         "  if (!has_$name$()) {\n"
-        "    return NULL;\n"
+        "    return nullptr;\n"
         "  }\n"
         "  $clear_hasbit$\n"
         "  return $name$_.ReleaseNonDefault("
@@ -290,7 +290,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer) const {
     printer->Print(variables_,
         "}\n"
         "inline void $classname$::set_allocated_$name$(::std::string* $name$) {\n"
-        "  if ($name$ != NULL) {\n"
+        "  if ($name$ != nullptr) {\n"
         "    $set_hasbit$\n"
         "  } else {\n"
         "    $clear_hasbit$\n"
@@ -302,15 +302,15 @@ GenerateInlineAccessorDefinitions(io::Printer* printer) const {
         "inline ::std::string* $classname$::unsafe_arena_release_$name$() {\n"
         "  // "
         "@@protoc_insertion_point(field_unsafe_arena_release:$full_name$)\n"
-        "  GOOGLE_DCHECK(GetArenaNoVirtual() != NULL);\n"
+        "  GOOGLE_DCHECK(GetArenaNoVirtual() != nullptr);\n"
         "  $clear_hasbit$\n"
         "  return $name$_.UnsafeArenaRelease($default_variable$,\n"
         "      GetArenaNoVirtual());\n"
         "}\n"
         "inline void $classname$::unsafe_arena_set_allocated_$name$(\n"
         "    ::std::string* $name$) {\n"
-        "  GOOGLE_DCHECK(GetArenaNoVirtual() != NULL);\n"
-        "  if ($name$ != NULL) {\n"
+        "  GOOGLE_DCHECK(GetArenaNoVirtual() != nullptr);\n"
+        "  if ($name$ != nullptr) {\n"
         "    $set_hasbit$\n"
         "  } else {\n"
         "    $clear_hasbit$\n"
@@ -366,7 +366,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer) const {
     if (HasFieldPresence(descriptor_->file())) {
       printer->Print(variables_,
         "  if (!has_$name$()) {\n"
-        "    return NULL;\n"
+        "    return nullptr;\n"
         "  }\n"
         "  $clear_hasbit$\n"
         "  return $name$_.ReleaseNonDefaultNoArena($default_variable$);\n");
@@ -379,7 +379,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer) const {
     printer->Print(variables_,
         "}\n"
         "inline void $classname$::set_allocated_$name$(::std::string* $name$) {\n"
-        "  if ($name$ != NULL) {\n"
+        "  if ($name$ != nullptr) {\n"
         "    $set_hasbit$\n"
         "  } else {\n"
         "    $clear_hasbit$\n"
@@ -736,7 +736,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer) const {
         "    return $field_member$.Release($default_variable$,\n"
         "        GetArenaNoVirtual());\n"
         "  } else {\n"
-        "    return NULL;\n"
+        "    return nullptr;\n"
         "  }\n"
         "}\n"
         "inline void $classname$::set_allocated_$name$(::std::string* $name$) {\n"
@@ -744,7 +744,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer) const {
         "    $field_member$.UnsafeSetDefault($default_variable$);\n"
         "  }\n"
         "  clear_$oneof_name$();\n"
-        "  if ($name$ != NULL) {\n"
+        "  if ($name$ != nullptr) {\n"
         "    set_has_$name$();\n"
         "    $field_member$.SetAllocated($default_variable$, $name$,\n"
         "        GetArenaNoVirtual());\n"
@@ -754,18 +754,18 @@ GenerateInlineAccessorDefinitions(io::Printer* printer) const {
         "inline ::std::string* $classname$::unsafe_arena_release_$name$() {\n"
         "  // "
         "@@protoc_insertion_point(field_unsafe_arena_release:$full_name$)\n"
-        "  GOOGLE_DCHECK(GetArenaNoVirtual() != NULL);\n"
+        "  GOOGLE_DCHECK(GetArenaNoVirtual() != nullptr);\n"
         "  if (has_$name$()) {\n"
         "    clear_has_$oneof_name$();\n"
         "    return $field_member$.UnsafeArenaRelease(\n"
         "        $default_variable$, GetArenaNoVirtual());\n"
         "  } else {\n"
-        "    return NULL;\n"
+        "    return nullptr;\n"
         "  }\n"
         "}\n"
         "inline void $classname$::unsafe_arena_set_allocated_$name$("
         "::std::string* $name$) {\n"
-        "  GOOGLE_DCHECK(GetArenaNoVirtual() != NULL);\n"
+        "  GOOGLE_DCHECK(GetArenaNoVirtual() != nullptr);\n"
         "  if (!has_$name$()) {\n"
         "    $field_member$.UnsafeSetDefault($default_variable$);\n"
         "  }\n"
@@ -849,7 +849,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer) const {
         "    clear_has_$oneof_name$();\n"
         "    return $field_member$.ReleaseNoArena($default_variable$);\n"
         "  } else {\n"
-        "    return NULL;\n"
+        "    return nullptr;\n"
         "  }\n"
         "}\n"
         "inline void $classname$::set_allocated_$name$(::std::string* $name$) {\n"
@@ -857,7 +857,7 @@ GenerateInlineAccessorDefinitions(io::Printer* printer) const {
         "    $field_member$.UnsafeSetDefault($default_variable$);\n"
         "  }\n"
         "  clear_$oneof_name$();\n"
-        "  if ($name$ != NULL) {\n"
+        "  if ($name$ != nullptr) {\n"
         "    set_has_$name$();\n"
         "    $field_member$.SetAllocatedNoArena($default_variable$, $name$);\n"
         "  }\n"

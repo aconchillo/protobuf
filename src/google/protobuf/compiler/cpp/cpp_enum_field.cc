@@ -371,8 +371,8 @@ GenerateMergeFromCodedStreamWithPacking(io::Printer* printer) const {
                     "WireFormatLite::ReadPackedEnumPreserveUnknowns(\n"
         "       input,\n"
         "       $number$,\n"
-        "       NULL,\n"
-        "       NULL,\n"
+        "       nullptr,\n"
+        "       nullptr,\n"
         "       this->mutable_$name$())));\n");
     } else if (UseUnknownFieldSet(descriptor_->file(), options_)) {
       printer->Print(variables_,

@@ -779,9 +779,9 @@ void FileGenerator::GenerateReflectionInitializationCode(io::Printer* printer) {
     printer->Print(
         // MSVC doesn't like empty arrays, so we add a dummy.
         "const ::google::protobuf::uint32 TableStruct::offsets[1] = {};\n"
-        "static const ::google::protobuf::internal::MigrationSchema* schemas = NULL;\n"
+        "static const ::google::protobuf::internal::MigrationSchema* schemas = nullptr;\n"
         "static const ::google::protobuf::Message* const* "
-        "file_default_instances = NULL;\n"
+        "file_default_instances = nullptr;\n"
         "\n");
   }
 
@@ -802,13 +802,13 @@ void FileGenerator::GenerateReflectionInitializationCode(io::Printer* printer) {
         "TableStruct::offsets,\n"
         "      $metadata$, $enum_descriptors$, $service_descriptors$);\n",
         "filename", file_->name(), "metadata",
-        !message_generators_.empty() ? "file_level_metadata" : "NULL",
+        !message_generators_.empty() ? "file_level_metadata" : "nullptr",
         "enum_descriptors",
-        !enum_generators_.empty() ? "file_level_enum_descriptors" : "NULL",
+        !enum_generators_.empty() ? "file_level_enum_descriptors" : "nullptr",
         "service_descriptors",
         HasGenericServices(file_, options_) && file_->service_count() > 0
             ? "file_level_service_descriptors"
-            : "NULL");
+            : "nullptr");
     printer->Print(
         "}\n"
         "\n"
@@ -818,13 +818,13 @@ void FileGenerator::GenerateReflectionInitializationCode(io::Printer* printer) {
         "}\n"
         "\n",
         "filename", file_->name(), "metadata",
-        !message_generators_.empty() ? "file_level_metadata" : "NULL",
+        !message_generators_.empty() ? "file_level_metadata" : "nullptr",
         "enum_descriptors",
-        !enum_generators_.empty() ? "file_level_enum_descriptors" : "NULL",
+        !enum_generators_.empty() ? "file_level_enum_descriptors" : "nullptr",
         "service_descriptors",
         HasGenericServices(file_, options_) && file_->service_count() > 0
             ? "file_level_service_descriptors"
-            : "NULL");
+            : "nullptr");
 
     // Only here because of useless string reference that we don't want in
     // protobuf_AssignDescriptorsOnce, because that is called from all the
@@ -1057,7 +1057,7 @@ void FileGenerator::GenerateTables(io::Printer* printer) {
     }
 
     if (message_generators_.empty()) {
-      printer->Print("{ NULL, NULL, 0, -1, -1, false },\n");
+      printer->Print("{ nullptr, nullptr, 0, -1, -1, false },\n");
     }
 
     printer->Outdent();

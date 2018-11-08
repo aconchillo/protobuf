@@ -648,7 +648,7 @@ GenerateSingularFieldHasBits(const FieldDescriptor* field,
         printer->Print(
             vars,
             "inline bool $classname$::has_$name$() const {\n"
-            "  return this != internal_default_instance() && $name$_ != NULL;\n"
+            "  return this != internal_default_instance() && $name$_ != nullptr;\n"
             "}\n");
       }
     }
@@ -983,7 +983,7 @@ GenerateClassDefinition(io::Printer* printer) {
     "// implements Message ----------------------------------------------\n"
     "\n"
     "inline $classname$* New() const$new_final$ {\n"
-    "  return CreateMaybeMessage<$classname$>(NULL);\n"
+    "  return CreateMaybeMessage<$classname$>(nullptr);\n"
     "}\n"
     "\n"
     "$classname$* New(::google::protobuf::Arena* arena) const$new_final$ {\n"
@@ -1075,10 +1075,10 @@ GenerateClassDefinition(io::Printer* printer) {
     printer->Print(
       "private:\n"
       "inline ::google::protobuf::Arena* GetArenaNoVirtual() const {\n"
-      "  return NULL;\n"
+      "  return nullptr;\n"
       "}\n"
       "inline void* MaybeArenaPtr() const {\n"
-      "  return NULL;\n"
+      "  return nullptr;\n"
       "}\n");
   }
 
@@ -1361,7 +1361,7 @@ GenerateExtraDefaultFields(io::Printer* printer) {
 bool MessageGenerator::GenerateParseTable(io::Printer* printer, size_t offset,
                                           size_t aux_offset) {
   if (!table_driven_) {
-    printer->Print("{ NULL, NULL, 0, -1, -1, -1, -1, NULL, false },\n");
+    printer->Print("{ nullptr, nullptr, 0, -1, -1, -1, -1, nullptr, false },\n");
     return false;
   }
 
@@ -1548,7 +1548,7 @@ int MessageGenerator::GenerateFieldMetadata(io::Printer* printer) {
       vars["tag"] = SimpleItoa(tag);
       vars["hasbit"] = SimpleItoa(i);
       vars["type"] = SimpleItoa(CalcFieldNum(generator, field, options_));
-      vars["ptr"] = "NULL";
+      vars["ptr"] = "nullptr";
       if (field->cpp_type() == FieldDescriptor::CPPTYPE_MESSAGE) {
         GOOGLE_CHECK(!IsMapEntryMessage(field->message_type()));
         {
@@ -1571,7 +1571,7 @@ int MessageGenerator::GenerateFieldMetadata(io::Printer* printer) {
   }
   printer->Print(
       "{GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET($classname$, "
-      "_cached_size_), 0, 0, 0, NULL},\n",
+      "_cached_size_), 0, 0, 0, nullptr},\n",
       "classname", full_classname);
   std::vector<const Descriptor::ExtensionRange*> sorted_extensions;
   for (int i = 0; i < descriptor_->extension_range_count(); ++i) {
@@ -1613,7 +1613,7 @@ int MessageGenerator::GenerateFieldMetadata(io::Printer* printer) {
     vars["classname"] = full_classname;
     vars["field_name"] = classfieldname;
     vars["tag"] = SimpleItoa(tag);
-    vars["ptr"] = "NULL";
+    vars["ptr"] = "nullptr";
     if (field->cpp_type() == FieldDescriptor::CPPTYPE_MESSAGE) {
       if (IsMapEntryMessage(field->message_type())) {
         vars["idx"] = SimpleItoa(FindMessageIndexInFile(field->message_type()));
@@ -2188,7 +2188,7 @@ GenerateSharedDestructorCode(io::Printer* printer) {
   printer->Indent();
   if (SupportsArenas(descriptor_)) {
     printer->Print(
-      "GOOGLE_DCHECK(GetArenaNoVirtual() == NULL);\n");
+      "GOOGLE_DCHECK(GetArenaNoVirtual() == nullptr);\n");
   }
   // Write the destructors for each field except oneof members.
   // optimized_order_ does not contain oneof fields.
@@ -2273,7 +2273,7 @@ GenerateArenaDestructorCode(io::Printer* printer) {
   if (need_registration) {
     printer->Print(
         "inline void $classname$::RegisterArenaDtor(::google::protobuf::Arena* arena) {\n"
-        "  if (arena != NULL) {\n"
+        "  if (arena != nullptr) {\n"
         "    arena->OwnCustomDestructor(this, &$classname$::ArenaDtor);\n"
         "  }\n"
         "}\n",
@@ -2386,7 +2386,7 @@ GenerateStructors(io::Printer* printer) {
     initializer_with_arena += ", _weak_field_map_(arena)";
   }
 
-  string initializer_null = superclass + "(), _internal_metadata_(NULL)";
+  string initializer_null = superclass + "(), _internal_metadata_(nullptr)";
   if (IsAnyMessage(descriptor_)) {
     initializer_null += ", _any_metadata_(&type_url_, &value_)";
   }
@@ -2447,7 +2447,7 @@ GenerateStructors(io::Printer* printer) {
     printer->Indent();
 
     printer->Print(
-        ",\n_internal_metadata_(NULL)");
+        ",\n_internal_metadata_(nullptr)");
 
     if (HasFieldPresence(descriptor_->file())) {
         printer->Print(",\n_has_bits_(from._has_bits_)");
@@ -2909,7 +2909,7 @@ GenerateSwap(io::Printer* printer) {
         "    temp->MergeFrom(*other);\n"
         "    other->CopyFrom(*this);\n"
         "    InternalSwap(temp);\n"
-        "    if (GetArenaNoVirtual() == NULL) {\n"
+        "    if (GetArenaNoVirtual() == nullptr) {\n"
         "      delete temp;\n"
         "    }\n"
         "  }\n"
@@ -2996,7 +2996,7 @@ GenerateMergeFrom(io::Printer* printer) {
       "const $classname$* source =\n"
       "    ::google::protobuf::internal::DynamicCastToGenerated<const $classname$>(\n"
       "        &from);\n"
-      "if (source == NULL) {\n"
+      "if (source == nullptr) {\n"
       "// @@protoc_insertion_point(generalized_merge_from_cast_fail:"
       "$full_name$)\n"
       "  ::google::protobuf::internal::ReflectionOps::Merge(from, this);\n"
